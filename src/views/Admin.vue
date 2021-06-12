@@ -96,13 +96,13 @@
         v-bind:title="item.title"
         v-bind:subtitle="item.subtitle"
         v-bind:text="item.text"
-        v-bind:id="item.id"
+        v-bind:id="item._id"
       >
         <div class="img-parent">
           <v-parallax
             class="card-img"
             v-bind:image="item.image"
-            :src="item.image"
+            :src="'http://localhost:3003' + '/' + item.image"
             height="330"
           ></v-parallax>
         </div>
@@ -127,7 +127,7 @@
                       Saiba Mais
                     </v-btn>
                     <v-btn
-                      v-on:click="excludeCard(item.id)"
+                      v-on:click="excludeCard(item._id)"
                       class="delete-button"
                       fab
                       dark
@@ -196,6 +196,7 @@ export default {
   },
   methods: {
     excludeCard(cardId) {
+      console.log(cardId);
       this.$swal
         .fire({
           title: "Tem certeza?",
@@ -209,9 +210,15 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            axios.delete(`http://localhost:8080/cards/${cardId}`).then(() => {
-              document.getElementById(cardId).style.display = "none";
-            });
+            axios
+              .delete(`http://localhost:3003/api/cards/store`, {
+                data: {
+                  cardId: cardId,
+                },
+              })
+              .then(() => {
+                document.getElementById(cardId).style.display = "none";
+              });
           }
         });
     },
@@ -226,13 +233,13 @@ export default {
       let data = new FormData();
       data.append("title", this.newTitle);
       data.append("subtitle", this.newSubTitle);
-      data.append("image", this.newImage);
       data.append("text", this.newDescription);
+      data.append("image", this.newImage);
 
       axios({
         headers: { "Content-Type": "multipart/form-data" },
         method: "post",
-        url: "http://localhost:8080/cards",
+        url: "http://localhost:3003/api/cards/store",
         data: data,
       }).then(
         this.$swal.fire("Sucesso!", "Card cadastrado com sucesso!", "success")
@@ -302,6 +309,11 @@ export default {
 }
 
 .card .card-img {
+  transform: scale(1.5);
+  transition: all 0.2s;
+}
+
+.card .card-img {
   height: 400px !important;
   object-fit: cover;
 }
@@ -314,8 +326,8 @@ export default {
 }
 
 .card .card-img:hover {
-  transform: scale(1.1);
-  transition: 0.3s ease-in;
+  transform: scale(2);
+  transition: 0.2s ease-in;
 }
 
 .loader-skeleton {

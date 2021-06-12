@@ -35,12 +35,13 @@
         v-bind:title="item.title"
         v-bind:subtitle="item.subtitle"
         v-bind:text="item.text"
+        v-bind:id="item._id"
       >
         <div class="img-parent">
           <v-parallax
             class="card-img"
             v-bind:image="item.image"
-            :src="item.image"
+            :src="'http://localhost:3003' + '/' + item.image"
             height="330"
           ></v-parallax>
         </div>

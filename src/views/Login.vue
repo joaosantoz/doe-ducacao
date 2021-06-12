@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     sendLoginRequest() {
-      Axios.get("http://localhost:3003/api/user").then((res) => {
+      Axios.get("http://localhost:3003/api/users").then((res) => {
         this.responseObj = res.data.response;
         const { user, password } = this;
         this.responseObj.forEach((element) => {
