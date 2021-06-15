@@ -103,7 +103,7 @@
             class="card-img"
             v-bind:image="item.image"
             :src="'http://localhost:3003' + '/' + item.image"
-            height="330"
+            height="400"
           ></v-parallax>
         </div>
 
@@ -309,7 +309,7 @@ export default {
 }
 
 .card .card-img {
-  transform: scale(1.5);
+  transform: scale(1.1);
   transition: all 0.2s;
 }
 
@@ -326,7 +326,7 @@ export default {
 }
 
 .card .card-img:hover {
-  transform: scale(2);
+  transform: scale(1);
   transition: 0.2s ease-in;
 }
 

@@ -42,7 +42,7 @@
             class="card-img"
             v-bind:image="item.image"
             :src="'http://localhost:3003' + '/' + item.image"
-            height="330"
+            height="400"
           ></v-parallax>
         </div>
 

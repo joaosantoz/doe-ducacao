@@ -50,24 +50,41 @@ export default {
     };
   },
   methods: {
-    sendLoginRequest() {
-      Axios.get("http://localhost:3003/api/users").then((res) => {
-        this.responseObj = res.data.response;
-        const { user, password } = this;
-        this.responseObj.forEach((element) => {
-          if (user == element.login && password == element.password) {
-            this.$swal.fire(
-              "Sucesso!",
-              "Login efetuado com sucesso!",
-              "success"
-            );
-            this.$router.push("/admin/locations");
-            console.log("Autenticado");
-          } else {
-            this.$swal.fire("Erro!", "Usuário não encontrado.", "error");
-          }
-        });
-      });
+    async sendLoginRequest() {
+      const response = await Axios.post(
+        "http://localhost:3003/api/users/login",
+        {
+          login: this.user,
+          password: this.password,
+        }
+      );
+
+      let data = response.data;
+
+      if (data.status === 200) {
+        this.$swal.fire("Sucesso!", data.message, "success");
+        this.$router.push("/admin/locations");
+      } else {
+        this.$swal.fire("Erro!", data.message, "error");
+      }
+
+      // Axios.get("http://localhost:3003/api/users").then((res) => {
+      //   this.responseObj = res.data.response;
+      //   const { user, password } = this;
+      //   this.responseObj.forEach((element) => {
+      //     if (user == element.login && password == element.password) {
+      //       this.$swal.fire(
+      //         "Sucesso!",
+      //         "Login efetuado com sucesso!",
+      //         "success"
+      //       );
+      //       this.$router.push("/admin/locations");
+      //       console.log("Autenticado");
+      //     } else {
+      //       this.$swal.fire("Erro!", "Usuário não encontrado.", "error");
+      //     }
+      //   });
+      // });
     },
   },
 };
